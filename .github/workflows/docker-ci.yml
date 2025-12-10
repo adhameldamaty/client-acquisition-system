@@ -1,24 +1,24 @@
 name: CI Pipeline
 
-# امتى الروبوت يشتغل؟ لما يحصل push على فرع main
+
 on:
   push:
     branches: [ "main" ]
 
 jobs:
   build_and_test:
-    runs-on: ubuntu-latest  # الجهاز اللي هيشتغل عليه الروبوت
+    runs-on: ubuntu-latest  
 
     steps:
-      # 1. نزل الكود بتاعنا على الجهاز
+      
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. جهز Docker Buildx (أداة البناء الحديثة)
+      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      # 3. جرب تبني الـ Services كلها
+      
       - name: Build Docker Images
         run: |
           docker compose build
