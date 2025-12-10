@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  email_service:
+    build: ./email_service
+    container_name: email_service
+    networks:
+      - app-network
+
+  automation_service:
+    build: ./automation_service
+    container_name: automation_service
+    networks:
+      - app-network
+
+  reporting_service:
+    build: ./reporting_service
+    container_name: reporting_service
+    depends_on:      
+      - db
+    networks:
+      - app-network
+
+  nginx:
+    build: ./infrastructure/nginx
+    container_name: nginx_gateway
+    ports:
+      - "8080:80"
+    depends_on:
+      - email_service
+      - automation_service
+      - reporting_service
+    networks:
+      - app-network
+
+  # --- New Database Service ---
+  db:
+    image: postgres:13-alpine   
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user      
+      POSTGRES_PASSWORD: password 
+      POSTGRES_DB: report_db   
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+# --- Define the Volume ---
+volumes:
+  postgres_data:
