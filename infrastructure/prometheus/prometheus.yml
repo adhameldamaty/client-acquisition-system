@@ -1,5 +1,5 @@
 global:
-  scrape_interval: 15s # اجمع البيانات كل 15 ثانية
+  scrape_interval: 15s 
 
 scrape_configs:
   - job_name: 'prometheus'
