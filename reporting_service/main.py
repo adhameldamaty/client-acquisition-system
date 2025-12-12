@@ -36,19 +36,19 @@ def read_root():
 def get_stats():
     db = SessionLocal()
     
-    # إضافة تقرير
+   
     new_report = Report(status="Processed", value=random.randint(1, 100))
     db.add(new_report)
     db.commit()
     
-    # 1. تحديث الكائن لضمان وجود البيانات
+   
     db.refresh(new_report)
     
-    # 2. قراءة القيمة وتخزينها في متغير قبل الإغلاق
+    
     report_value = new_report.value
     count = db.query(Report).count()
     
-    # 3. إغلاق الاتصال الآن بأمان
+    
     db.close()
     
     return {
